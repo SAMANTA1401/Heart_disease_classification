@@ -5,7 +5,6 @@ import pandas as pd
 import dill
 from src.exception import CustomException
 from src.logger import logging
-
 from sklearn.metrics import f1_score , accuracy_score, precision_recall_curve
 from sklearn.preprocessing import OrdinalEncoder 
 
@@ -42,3 +41,12 @@ def feature_engineering(df):
     # df = df.drop(columns=['Oldpeak', 'Cholesterol', 'RestingBP'])
 
     return df
+
+
+def load_object(file_path):
+    try:
+        with open(file_path,'rb') as file_obj:
+            return dill.load(file_obj)
+
+    except Exception as e:
+        raise logging.info(CustomException(e,sys))

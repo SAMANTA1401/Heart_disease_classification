@@ -1,35 +1,20 @@
-import os
+
 import sys
-from dataclasses import dataclass
-from imblearn.over_sampling import RandomOverSampler
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import  RandomForestClassifier
-from lightgbm import LGBMClassifier
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import roc_auc_score
 from sklearn.svm import SVC
-from sklearn.naive_bayes import GaussianNB
-from imblearn.pipeline import Pipeline as ImbPipeline
 from sklearn.linear_model import LogisticRegression
-# import tensorflow as tf
-import keras
 from xgboost import XGBClassifier
 from catboost import CatBoostClassifier
-from keras.models import Sequential, Model
-from keras.layers import Dense, Dropout
-from keras.callbacks import ModelCheckpoint,EarlyStopping
-from keras.optimizers import Adam
 import joblib
 from src.exception import CustomException
 from src.logger import logging
 import pandas as pd
 from sklearn.metrics import f1_score , accuracy_score, precision_score, recall_score
-from src.utils import save_object, evaluate_models
+from src.path_config import ModelTrainerConfig
 
 
-@dataclass
-class ModelTrainerConfig:
-    trained_model_file_path = os.path.join("model","best_model.joblib")
-    model_evaluation_file_path = os.path.join("model_evaluation","evaluation_report.csv")
 
 
 class ModelTrainer:
@@ -52,40 +37,31 @@ class ModelTrainer:
                 "LogisticRegression": (
                     LogisticRegression(max_iter=1000, random_state=42),
                     {
-                        "classifier__C": [0.01, 0.1, 1, 10],
-                        "classifier__penalty": ["l2"],
-                        "classifier__solver": ["lbfgs"]
+                        "C": [0.01, 0.1, 1, 10],
                     }
                 ),
                 "RandomForest": (
                     RandomForestClassifier(random_state=42),
                     {
-                        "classifier__n_estimators": [100, 200],
-                        "classifier__max_depth": [5, 10, None]
+                        "n_estimators": [100, 200],
+                        "max_depth": [5, 10, None]
                     }
                 ),
                 "XGBoost": (
                     XGBClassifier(use_label_encoder=False, eval_metric='logloss', random_state=42),
                     {
-                        "classifier__n_estimators": [100, 200],
-                        "classifier__max_depth": [3, 6]
+                        "n_estimators": [100, 200],
+                        "max_depth": [3, 6]
                     }
                 ),
                 "CatBoost": (
                     CatBoostClassifier(verbose=0, random_state=42),
                     {
-                        "classifier__depth": [4, 6],
-                        "classifier__learning_rate": [0.01, 0.1]
-                    }
-                ),
-                "LightGBM": (
-                    LGBMClassifier(random_state=42),
-                    {
-                        "classifier__n_estimators": [100, 200],
-                        "classifier__max_depth": [3, 6, -1],
-                        "classifier__learning_rate": [0.01, 0.1]
+                        "depth": [4, 6],
+                        "learning_rate": [0.01, 0.1]
                     }
                 )
+                
             }
 
             results = []
@@ -100,6 +76,12 @@ class ModelTrainer:
                 grid.fit(X_train, y_train)
 
                 y_pred = grid.predict(X_test)
+
+                try:
+                    y_prob = grid.predict_proba(X_test)
+                    auc = roc_auc_score(y_test, y_prob, multi_class='ovr', average='weighted')
+                except:
+                    auc = None
 
                 acc = accuracy_score(y_test, y_pred)
                 prec = precision_score(y_test, y_pred, average='weighted', zero_division=0)

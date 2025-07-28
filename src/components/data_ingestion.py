@@ -1,17 +1,12 @@
-import os
+
 import sys
 from src.exception import CustomException
 from src.logger import logging
 from sklearn.model_selection import train_test_split
 import pandas as pd
-from dataclasses import dataclass
+from src.path_config import DataIngestionConfig
 
 
-@dataclass
-class DataIngestionConfig:  
-    raw_data_path: str=os.path.join('data','balance_heart_data.csv') #save raw dataset in this path
-    train_data_path: str=os.path.join('artifacts','train.csv') #save train data in this path
-    test_data_path:str = os.path.join('artifacts', 'test.csv')   # save test data in this path
 
 class DataIngestion:
     def __init__(self):

@@ -1,22 +1,17 @@
 import sys
-import os
-
-from dataclasses import dataclass
 import pandas as pd
 import numpy as np
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, StandardScaler, LabelEncoder, OrdinalEncoder, MinMaxScaler
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from src.exception import CustomException
 from src.logger import logging
 from src.utils import save_object
-
+from src.path_config import DataTransformationConfig
 # 10. after data ingestion
-@dataclass
-class DataTransformationConfig:
-    preprocessor_obj_file_path=os.path.join('artifacts',"preprocessor.pkl")
+
 # 11.
 class DataTransformation:
     # 11.1
@@ -67,7 +62,7 @@ class DataTransformation:
 
             preprocessing_obj = self.get_data_transformer_object()
 
-            target_column_name="'HeartDisease'"
+            target_column_name="HeartDisease"
             
 
             input_feature_train__df = train_df.drop(columns=[target_column_name],axis=1)
