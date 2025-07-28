@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "heart_diesase_prediction"
+version = "0.0.1"
+description = "heart_diesase_prediction"
+authors = [
+    { name = "SAMANTA1401" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+
+dependencies = [
+    # only core runtime dependencies here if you want; most go in requirements.txt
+  
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "pytest",
+    "mypy",
+    "isort",
+    "pre-commit"
+]
+
+[tool.setuptools]
+# Uses default behavior of `find_packages()` — scanning from project root
+
+[tool.setuptools.packages.find]
+where = ["."]

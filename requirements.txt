@@ -239,3 +239,7 @@ wrapt==1.14.1
 xgboost==2.0.3
 yarl==1.9.4
 zc.lockfile==3.0.post1
+
+lightgbm
+
+-e .
