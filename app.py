@@ -81,3 +81,6 @@ if submitted:
 # if st.button("Train Model"):
 #     st.warning("Training logic should be securely implemented.")
 #     st.info("Add training function here to re-train and save model.")
+
+
+# run it :stramlit run app.py
