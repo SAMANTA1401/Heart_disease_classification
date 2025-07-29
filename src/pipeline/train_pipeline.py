@@ -25,6 +25,7 @@ class TrainPipeline:
             self.training.initiate_model_trainer(train_arr,test_arr)
 
             logging.info("training done")
+            print("training complete")
 
 
         except Exception as e:

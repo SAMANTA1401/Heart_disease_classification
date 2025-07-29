@@ -13,6 +13,9 @@ class DataIngestionConfig:
 @dataclass
 class DataTransformationConfig:
     preprocessor_obj_file_path=os.path.join('artifacts',"preprocessor.pkl")
+    preprocess_train_arr_path = os.path.join('artifacts',"train_arr.csv")
+    preprocess_test_arr_path = os.path.join('artifacts','test_arr.csv')
+    scaled_train_data_path = os.path.join("artifacts","scaled_train_data.csv")
 
 @dataclass
 class ShapexplainerConfig:

@@ -72,9 +72,12 @@ class DataTransformation:
             target_feature_test_df = test_df[target_column_name]
 
 
-
             input_feature_train_arr=preprocessing_obj.fit_transform(input_feature_train__df)
-            input_feature_test_arr=preprocessing_obj.fit_transform(input_feature_test__df)
+            input_feature_test_arr=preprocessing_obj.transform(input_feature_test__df)
+
+       
+            np.savetxt(self.data_transformation_config.preprocess_train_arr_path, input_feature_train_arr, delimiter=",", fmt='%f')
+            np.savetxt(self.data_transformation_config.preprocess_test_arr_path, input_feature_test_arr, delimiter=",", fmt='%f')
 
             train_arr = np.c_[input_feature_train_arr,np.array(target_feature_train_df)]
             test_arr =  np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
