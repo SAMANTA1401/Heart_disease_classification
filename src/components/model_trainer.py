@@ -94,6 +94,7 @@ class ModelTrainer:
                     "Precision": prec,
                     "Recall": rec,
                     "F1 Score": f1,
+                    "auc": auc,
                     "Best Params": grid.best_params_
                 })
 

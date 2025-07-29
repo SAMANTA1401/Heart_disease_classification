@@ -84,3 +84,5 @@ if submitted:
 
 
 # run it :stramlit run app.py
+
+## to train run : train_pipeline
